@@ -1,3 +1,5 @@
+#ifndef SDL_ALL
+#define SDL_ALL
 #include <SDL.h>
 #include <SDL_image.h>
 
@@ -12,4 +14,5 @@
 #pragma comment(lib, "SDL2_image.lib")
 #pragma comment(lib, "SDL2_mixer.dll")
 #undef main
+#endif
 #endif
