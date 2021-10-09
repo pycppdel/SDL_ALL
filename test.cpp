@@ -17,7 +17,7 @@ int main(){
   SDL_Rect t = {100, 100, 800, 800};
   SDL_MANAGER man(&t);
 
-  man.init();
+  man.init("Hallo");
 
   man.setDrawMethod(d);
 
