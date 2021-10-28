@@ -2,6 +2,7 @@
 #define SDL_ALL
 #include <SDL.h>
 #include <SDL_image.h>
+#include <SDL_ttf.h>
 
 #ifdef __linux__
 #include <png.h>
@@ -13,6 +14,7 @@
 #pragma comment(lib, "SDL2main.lib")
 #pragma comment(lib, "SDL2_image.lib")
 #pragma comment(lib, "SDL2_mixer.lib")
+#pragma comment(lib, "SDL2_ttf.lib")
 #undef main
 #endif
 
