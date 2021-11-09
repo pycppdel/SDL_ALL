@@ -157,3 +157,5 @@ meta_data_extended = {
 meta_data.update(meta_data_extended)
 
 pickle.dump(meta_data, open(__FILENAME__, "wb"))
+
+os.chdir(current_path)
