@@ -14,22 +14,15 @@ import pickle
 
 __FILENAME__ = "meta_data.pkl"
 
-#loading file
-try:
-    meta_data = pickle.load(open(__FILENAME__, "rb"))
-
-except FileNotFoundError:
-    meta_data = {}
 
 #where the actual compiled folders will go
 actual_compiled_home_folders = []
 
 #files to compile in make
 
-make_compile_names = [
-"SDL_ALL_compile.cpp",
-"SDL_ALL_make.cpp",
-]
+make_compile_names = [ endfile for root, dirs, file in os.walk(".", topdown=False) for endfile in file if endfile.endswith(".cpp")]
+
+print(" \n".join(["compiling...\n", *make_compile_names]))
 
 #saving current path
 current_path = os.getcwd()
@@ -71,6 +64,13 @@ if not os.path.exists(SDL_ALL_PATH):
 if not home_names:
 
     raise ValueError("No home folders given")
+
+#loading file
+try:
+    meta_data = pickle.load(open(__FILENAME__, "rb"))
+
+except FileNotFoundError:
+    meta_data = {"SDL_ALL_PATH": SDL_ALL_PATH, "FILE_EXPORT": {}}
 
 
 
@@ -149,12 +149,13 @@ elif system_name == "windows":
 
 
 meta_data_extended = {
+
 #setting all made paths
-"FILE_EXPORT": {el1: SDL_ALL_PATH for el1 in actual_compiled_home_folders},
+el1: SDL_ALL_PATH for el1 in actual_compiled_home_folders
 
 }
 
-meta_data.update(meta_data_extended)
+meta_data["FILE_EXPORT"].update(meta_data_extended)
 
 pickle.dump(meta_data, open(__FILENAME__, "wb"))
 
