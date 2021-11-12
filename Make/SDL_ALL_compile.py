@@ -5,6 +5,7 @@ Compiles the file given by the first arguments with arguments -I and -A for add
 import sys
 import os
 import pickle
+import platform
 
 """
 First: checking for pickle
@@ -17,13 +18,15 @@ meta_data_loaded = True
 
 print("\n")
 
+meta_data = {}
+
 try:
 
     meta_data =  pickle.load(open(__FILENAME__, "rb"))
 
 except FileNotFoundError:
 
-    print("First use <SDL_ALL_SETUP> with the option -SDL to setup your SDL_ALL System")
+    #print("First use <SDL_ALL_SETUP> with the option -SDL to setup your SDL_ALL System")
     meta_data_loaded = False
 
 filename = (sys.argv[1] if len(sys.argv) > 1 else None)
@@ -51,35 +54,40 @@ for el in includelist+addlist:
         print("PATH "+el+" DOES NOT EXIST")
         meta_data_loaded = False
 
-if filename is None:
-    meta_data_loaded = False
+def load_SDL_ALL():
 
-#everything is correct: starting compilation
-if meta_data_loaded:
-
-    SDL_ALL_PATH = meta_data["SDL_ALL_PATH"] #got path
-    #now ready for compiling
-
-    #creating string
-    compilestring = "".join([
-
-    "g++ ",
-    "-o ",
-    filename[0:filename.find(".cpp")]+" ",
-    filename+" ",
-    SDL_ALL_PATH+"Includes/utils.cpp ",
+    #try loading from path
+    if platform.platform().startswith("windows"):
+        pass
+    else:
+        return os.popen("echo $SDL_ALL_PATH").read()
 
 
-    ])
+SDL_ALL_PATH = load_SDL_ALL().strip()
+print(SDL_ALL_PATH)
+print("STRING: "+SDL_ALL_PATH)
 
-    for el in addlist:
+#creating string
+compilestring = "".join([
 
-        compilestring += el+" "
+"g++ ",
+"-o ",
+filename[0:filename.find(".cpp")]+" ",
+filename+" ",
+SDL_ALL_PATH+"Includes/utils.cpp ",
 
-    compilestring += "-lSDL2 -lSDL2_image -lSDL2_ttf `sdl2-config --cflags --libs` "
-    compilestring += "-I "+SDL_ALL_PATH+"Includes/"
 
-    os.system(compilestring)
+])
+
+for el in addlist:
+
+    compilestring += el+" "
+
+compilestring += "-lSDL2 -lSDL2_image -lSDL2_ttf `sdl2-config --cflags --libs` "
+compilestring += "-I "+SDL_ALL_PATH+"Includes/"
+
+print(compilestring)
+os.system(compilestring)
 
 
 

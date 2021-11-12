@@ -59,6 +59,8 @@ else:
 
 if not os.path.exists(SDL_ALL_PATH):
 
+    print(SDL_ALL_PATH)
+
     raise ValueError("SDL path not valid")
 
 if not home_names:
@@ -85,6 +87,7 @@ if system_name == "linux":
     os.environ["PATH"] += ":"+SDL_ALL_PATH
     os.environ["PATH"] += ":"+SDL_ALL_PATH+"/Make/"
 
+    os.environ["SDL_ALL_PATH"] = SDL_ALL_PATH
     #variable set, now moving on to setting the variable in .bashrc file
 
 
@@ -107,6 +110,7 @@ if system_name == "linux":
 
 
             f.write(bashtext+\
+                    "export SDL_ALL_PATH="+SDL_ALL_PATH+"\n"\
                     "export PATH="+SDL_ALL_PATH+":$PATH\n"+\
                     "export PATH="+SDL_ALL_PATH+"/Make/"+":$PATH\n"\
             )
