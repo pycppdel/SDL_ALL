@@ -105,6 +105,7 @@ if system_name == "linux":
         #exporting
         with open(".bashrc", "w") as f:
 
+
             f.write(bashtext+\
                     "export PATH="+SDL_ALL_PATH+":$PATH\n"+\
                     "export PATH="+SDL_ALL_PATH+"/Make/"+":$PATH\n"\
